@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create account | Marphire</title>
+	<meta name="description" content="Create a new Marphire account">
+
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+			background-color: DodgerBlue;
+		}
+
+		.register-wrapper {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.register-card {
+			background: white;
+			padding: 48px;
+			width: 380px;
+			border-radius: 18px;
+			box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+		}
+
+		.register-card h1 {
+			margin: 0 0 28px;
+			text-align: center;
+			font-size: 26px;
+			font-weight: 700;
+			color: #111;
+		}
+
+		.input-field {
+			width: 100%;
+			padding: 16px 14px;
+			margin-bottom: 16px;
+			font-size: 16px;
+			border-radius: 10px;
+			border: 1.5px solid #ddd;
+			outline: none;
+		}
+
+		.input-field:focus {
+			border-color: #ff8c00;
+			box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+		}
+
+		.password-row {
+			display: flex;
+			gap: 10px;
+			align-items: center;
+		}
+
+		.toggle-btn {
+			padding: 14px 12px;
+			border-radius: 10px;
+			border: 1px solid #ddd;
+			background: #f6f6f6;
+			cursor: pointer;
+			font-size: 14px;
+		}
+
+		.create-btn {
+			width: 100%;
+			margin-top: 20px;
+			padding: 16px;
+			font-size: 18px;
+			font-weight: 600;
+			color: white;
+			background: linear-gradient(135deg, #ff8c00, #ffa733);
+			border: none;
+			border-radius: 12px;
+			cursor: pointer;
+			box-shadow: 0 12px 30px rgba(255, 140, 0, 0.4);
+		}
+
+		.error-msg {
+			color: red;
+			font-size: 14px;
+			margin-top: 10px;
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="register-wrapper">
+		<div class="register-card">
+			<h1>Create account</h1>
+
+			<input class="input-field" id="username" placeholder="Username">
+			<input class="input-field" id="email" placeholder="Email address">
+
+			<div class="password-row">
+				<input class="input-field" id="password" type="password" placeholder="Password">
+				<button class="toggle-btn" onclick="togglePassword()">Show</button>
+			</div>
+
+			<input class="input-field" id="password2" type="password" placeholder="Enter your password again">
+
+			<a href="check.html" class="create-btn" style="text-decoration:none; text-align:center; display:block;">
+				Create new account
+			</a>
+
+			<div class="error-msg" id="error">Username already exists. Please choose another.</div>
+		</div>
+	</div>
+
+	<script>
+		function togglePassword() {
+			const p1 = document.getElementById("password");
+			const p2 = document.getElementById("password2");
+			const type = p1.type === "password" ? "text" : "password";
+			p1.type = type;
+			p2.type = type;
+		}
+	</script>
+</body>
+</html>
 
