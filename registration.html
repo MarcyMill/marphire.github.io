@@ -17,7 +17,7 @@
 			background: white;
 			padding: 32px;
 			border-radius: 16px;
-			width: 320px;
+			width: 340px;
 			box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 		}
 		input {
@@ -50,7 +50,10 @@
 <body>
 	<div class="box">
 		<input id="username" placeholder="Username">
-		<input type="password" placeholder="Password">
+		<input id="email" placeholder="Email address">
+		<input id="password" type="password" placeholder="Password">
+		<input id="password2" type="password" placeholder="Enter password again">
+
 		<button onclick="submitForm()">Create new account</button>
 		<div id="error" class="error"></div>
 	</div>
@@ -58,9 +61,16 @@
 	<script>
 	async function submitForm() {
 		const username = document.getElementById("username").value;
+		const password = document.getElementById("password").value;
+		const password2 = document.getElementById("password2").value;
 		const errorBox = document.getElementById("error");
 
 		errorBox.textContent = "";
+
+		if (password !== password2) {
+			errorBox.textContent = "Passwords do not match.";
+			return;
+		}
 
 		const response = await fetch(
 			"http://localhost:8080/api/check-username?username=" + encodeURIComponent(username)
