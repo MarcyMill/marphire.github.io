@@ -28,11 +28,15 @@
 			border: 1px solid #ddd;
 			font-size: 16px;
 		}
-		.toggle {
-			font-size: 14px;
+		.small-btn {
+			width: 100%;
+			padding: 10px;
 			margin-bottom: 14px;
+			border-radius: 10px;
+			border: 1px solid #ccc;
+			background: #f3f3f3;
 			cursor: pointer;
-			user-select: none;
+			font-size: 14px;
 		}
 		button {
 			width: 100%;
@@ -61,22 +65,27 @@
 		<input id="password" type="password" placeholder="Password">
 		<input id="password2" type="password" placeholder="Enter password again">
 
-		<div class="toggle">
-			<input type="checkbox" id="showPw" onclick="togglePassword()">
-			<label for="showPw">Show password</label>
-		</div>
+		<button class="small-btn" onclick="togglePassword()">Show password</button>
 
 		<button onclick="submitForm()">Create new account</button>
 		<div id="error" class="error"></div>
 	</div>
 
 	<script>
+	let visible = false;
+
 	function togglePassword() {
 		const p1 = document.getElementById("password");
 		const p2 = document.getElementById("password2");
-		const type = p1.type === "password" ? "text" : "password";
+		const btn = document.querySelector(".small-btn");
+
+		visible = !visible;
+		const type = visible ? "text" : "password";
+
 		p1.type = type;
 		p2.type = type;
+
+		btn.textContent = visible ? "Hide password" : "Show password";
 	}
 
 	async function submitForm() {
@@ -99,7 +108,7 @@
 		const exists = await response.json();
 
 		if (exists) {
-			errorBox.textContent = "Username already exists. Choose another.";
+			errorBox.textContent = "Username already exists.";
 		} else {
 			window.location.href = "check.html";
 		}
