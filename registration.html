@@ -28,6 +28,12 @@
 			border: 1px solid #ddd;
 			font-size: 16px;
 		}
+		.toggle {
+			font-size: 14px;
+			margin-bottom: 14px;
+			cursor: pointer;
+			user-select: none;
+		}
 		button {
 			width: 100%;
 			padding: 14px;
@@ -51,14 +57,28 @@
 	<div class="box">
 		<input id="username" placeholder="Username">
 		<input id="email" placeholder="Email address">
+
 		<input id="password" type="password" placeholder="Password">
 		<input id="password2" type="password" placeholder="Enter password again">
+
+		<div class="toggle">
+			<input type="checkbox" id="showPw" onclick="togglePassword()">
+			<label for="showPw">Show password</label>
+		</div>
 
 		<button onclick="submitForm()">Create new account</button>
 		<div id="error" class="error"></div>
 	</div>
 
 	<script>
+	function togglePassword() {
+		const p1 = document.getElementById("password");
+		const p2 = document.getElementById("password2");
+		const type = p1.type === "password" ? "text" : "password";
+		p1.type = type;
+		p2.type = type;
+	}
+
 	async function submitForm() {
 		const username = document.getElementById("username").value;
 		const password = document.getElementById("password").value;
