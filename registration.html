@@ -115,6 +115,8 @@
 		console.log("sending request");
 
 		const response = await fetch(url, {
+			console.log("response received", response.status);
+
 			method: "POST"
 		});
 
