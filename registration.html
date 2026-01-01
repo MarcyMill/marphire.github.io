@@ -112,6 +112,7 @@
 			"?username=" + encodeURIComponent(username) +
 			"&email=" + encodeURIComponent(email) +
 			"&password=" + encodeURIComponent(password);
+		console.log("sending request");
 
 		const response = await fetch(url, {
 			method: "POST"
