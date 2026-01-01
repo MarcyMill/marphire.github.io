@@ -70,65 +70,68 @@
 		<div id="error" class="error"></div>
 	</div>
 
-	<script>
-	let visible = false;
+<script>
+let visible = false;
 
-	function togglePassword() {
-		const p1 = document.getElementById("password");
-		const p2 = document.getElementById("password2");
-		const btn = document.querySelector(".small-btn");
+function togglePassword() {
+	const p1 = document.getElementById("password");
+	const p2 = document.getElementById("password2");
+	const btn = document.querySelector(".small-btn");
 
-		visible = !visible;
-		const type = visible ? "text" : "password";
+	visible = !visible;
+	const type = visible ? "text" : "password";
 
-		p1.type = type;
-		p2.type = type;
+	p1.type = type;
+	p2.type = type;
 
-		btn.textContent = visible ? "Hide password" : "Show password";
+	btn.textContent = visible ? "Hide password" : "Show password";
+}
+
+async function submitForm() {
+	alert("SubmitForm triggered");
+
+	const username = document.getElementById("username").value.trim();
+	const email = document.getElementById("email").value.trim();
+	const password = document.getElementById("password").value;
+	const password2 = document.getElementById("password2").value;
+	const errorBox = document.getElementById("error");
+
+	errorBox.textContent = "";
+
+	if (!username || !email || !password) {
+		errorBox.textContent = "All fields are required.";
+		return;
 	}
 
-	async function submitForm() {
-		alert("SubmitForm triggered");
-		const username = document.getElementById("username").value.trim();
-		const email = document.getElementById("email").value.trim();
-		const password = document.getElementById("password").value;
-		const password2 = document.getElementById("password2").value;
-		const errorBox = document.getElementById("error");
-
-		errorBox.textContent = "";
-
-		if (!username || !email || !password) {
-			errorBox.textContent = "All fields are required.";
-			return;
-		}
-
-		if (password !== password2) {
-			errorBox.textContent = "Passwords do not match.";
-			return;
-		}
-
-		const url =
-			"http://127.0.0.1:8000/api/register" +
-			"?username=" + encodeURIComponent(username) +
-			"&email=" + encodeURIComponent(email) +
-			"&password=" + encodeURIComponent(password);
-		console.log("sending request");
-
-		const response = await fetch(url, {
-			console.log("response received", response.status);
-
-			method: "POST"
-		});
-
-		const data = await response.json();
-
-		if (!data.success) {
-			errorBox.textContent = data.message;
-		} else {
-			alert("REGISTER SUCCESS");
-			window.location.href = "/welcome.html";
-		}
+	if (password !== password2) {
+		errorBox.textContent = "Passwords do not match.";
+		return;
 	}
-	</script>
+
+	const url =
+		"http://127.0.0.1:8000/api/register" +
+		"?username=" + encodeURIComponent(username) +
+		"&email=" + encodeURIComponent(email) +
+		"&password=" + encodeURIComponent(password);
+
+	console.log("sending request");
+
+	const response = await fetch(url, {
+		method: "POST"
+	});
+
+	console.log("response received", response.status);
+
+	const data = await response.json();
+
+	if (!data.success) {
+		errorBox.textContent = data.message;
+	} else {
+		alert("REGISTER SUCCESS");
+		window.location.href = "/welcome.html";
+	}
+}
+</script>
+
 </body>
 </html>
