@@ -27,18 +27,38 @@
 			border-radius: 10px;
 			border: 1px solid #ddd;
 			font-size: 16px;
+			box-sizing: border-box;
 		}
 		.small-btn {
-			width: 100%;
-			padding: 10px;
+			display: inline-flex;
+			align-items: center;
+			gap: 5px;
+			padding: 5px 10px;
 			margin-bottom: 14px;
-			border-radius: 10px;
+			border-radius: 8px;
 			border: 1px solid #ccc;
 			background: #f3f3f3;
 			cursor: pointer;
-			font-size: 14px;
+			font-size: 12px;
+			color: #888;
+			transition: 0.2s ease;
 		}
-		button {
+		.small-btn.active {
+			background: #00ff00;
+			border: 1px solid #00cc00;
+			color: black;
+		}
+		.small-btn svg {
+			width: 14px;
+			height: 14px;
+			stroke: #888;
+			fill: none;
+			transition: stroke 0.2s ease;
+		}
+		.small-btn.active svg {
+			stroke: #006600;
+		}
+		button[onclick="submitForm()"] {
 			width: 100%;
 			padding: 14px;
 			border: none;
@@ -56,74 +76,79 @@
 		}
 	</style>
 </head>
-
 <body>
 	<div class="box">
 		<input id="username" placeholder="Username">
 		<input id="email" placeholder="Email address">
 		<input id="password" type="password" placeholder="Password">
 		<input id="password2" type="password" placeholder="Enter password again">
-
-		<button class="small-btn" onclick="togglePassword()">Show password</button>
+		<button type="button" class="small-btn" onclick="togglePassword()">
+			<svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+				<circle cx="12" cy="12" r="3"/>
+			</svg>
+			<span id="btn-label">Show password</span>
+		</button>
 		<button type="button" onclick="submitForm()">Create new account</button>
-
 		<div id="error" class="error"></div>
 	</div>
-
 <script>
 let visible = false;
-
 function togglePassword() {
 	const p1 = document.getElementById("password");
 	const p2 = document.getElementById("password2");
 	const btn = document.querySelector(".small-btn");
-
+	const label = document.getElementById("btn-label");
+	const icon = document.getElementById("eye-icon");
 	visible = !visible;
-	const type = visible ? "text" : "password";
-
-	p1.type = type;
-	p2.type = type;
-
-	btn.textContent = visible ? "Hide password" : "Show password";
+	if (visible) {
+		p1.type = "text";
+		p2.type = "text";
+		btn.classList.add("active");
+		label.textContent = "Hide password";
+		icon.innerHTML = `
+			<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+			<path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+			<line x1="1" y1="1" x2="23" y2="23"/>
+		`;
+	} else {
+		p1.type = "password";
+		p2.type = "password";
+		btn.classList.remove("active");
+		label.textContent = "Show password";
+		icon.innerHTML = `
+			<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+			<circle cx="12" cy="12" r="3"/>
+		`;
+	}
 }
-
 async function submitForm() {
 	alert("SubmitForm triggered");
-
 	const username = document.getElementById("username").value.trim();
 	const email = document.getElementById("email").value.trim();
 	const password = document.getElementById("password").value;
 	const password2 = document.getElementById("password2").value;
 	const errorBox = document.getElementById("error");
-
 	errorBox.textContent = "";
-
 	if (!username || !email || !password) {
 		errorBox.textContent = "All fields are required.";
 		return;
 	}
-
 	if (password !== password2) {
 		errorBox.textContent = "Passwords do not match.";
 		return;
 	}
-
 	const url =
 		"http://127.0.0.1:8000/api/register" +
 		"?username=" + encodeURIComponent(username) +
 		"&email=" + encodeURIComponent(email) +
 		"&password=" + encodeURIComponent(password);
-
 	console.log("sending request");
-
 	const response = await fetch(url, {
 		method: "POST"
 	});
-
 	console.log("response received", response.status);
-
 	const data = await response.json();
-
 	if (!data.success) {
 		errorBox.textContent = data.message;
 	} else {
@@ -132,6 +157,5 @@ async function submitForm() {
 	}
 }
 </script>
-
 </body>
 </html>
